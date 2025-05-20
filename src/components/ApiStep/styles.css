@@ -1,0 +1,74 @@
+.api-step-container {
+  width: 70vw;
+  margin: 40px auto;
+  background: #222;
+  border-radius: 12px;
+  padding: 32px;
+  color: #fff;
+  box-shadow: 0 2px 16px #0003;
+  display: flex;
+  flex-direction: column;
+}
+
+.api-title {
+  color: #FFC300;
+  margin-bottom: 24px;
+}
+
+.api-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #181818;
+  color: #fff;
+  font-size: 16px;
+  margin-bottom: 32px;
+}
+
+.api-btns-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+.api-btns-row-end {
+  justify-content: flex-end;
+}
+
+.api-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 32px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.api-btn-back {
+  background: #444;
+  color: #fff;
+}
+.api-btn-next {
+  background: #1976d2;
+  color: #fff;
+}
+.api-btn-next:disabled {
+  background: #555;
+  cursor: not-allowed;
+}
+
+.api-json-summary {
+  margin-top: 24px;
+}
+.api-summary-title {
+  color: #FFC300;
+}
+.api-json-box {
+  background: #181818;
+  color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  text-align: left;
+  overflow-x: auto;
+  margin-bottom: 32px;
+} 

@@ -30,19 +30,16 @@ const App: React.FC = () => {
     setStep(1);
   };
 
-  return (
-    <div>
-      {step === 0 && (
-        <TermsStep onAccept={handleTermsAccepted} />
-      )}
-      {step === 1 && (
-        <ConfigStep onNext={handleConfigNext} onBack={handleConfigBack} initialData={formData} />
-      )}
-      {step === 2 && (
-        <ApiStep onFinish={handleApiFinish} onBack={handleApiBack} initialData={formData} />
-      )}
-    </div>
-  );
+  switch (step) {
+    case 0:
+      return <TermsStep onAccept={handleTermsAccepted} />;
+    case 1:
+      return <ConfigStep onNext={handleConfigNext} onBack={handleConfigBack} initialData={formData} />;
+    case 2:
+      return <ApiStep onFinish={handleApiFinish} onBack={handleApiBack} initialData={formData} />;
+    default:
+      return null;
+  }
 };
 
 export default App; 

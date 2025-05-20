@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './styles.css';
 
 interface ConfigStepProps {
   onNext: (data: any) => void;
@@ -32,32 +33,41 @@ const ConfigStep: React.FC<ConfigStepProps> = ({ onNext, onBack, initialData }) 
     setFields(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleSelectFolder = async (fieldName: string) => {
+    if (window.electron && window.electron.selectFolder) {
+      const folder = await window.electron.selectFolder();
+      if (folder) {
+        setFields(prev => ({ ...prev, [fieldName]: folder }));
+      }
+    }
+  };
+
   const allFilled = fields.errorPath && fields.authPath && fields.tempPath && fields.videoDir && fields.subscriptionName;
 
   return (
-    <div style={{ maxWidth: 600, margin: '40px auto', background: '#222', borderRadius: 12, padding: 28, color: '#fff', boxShadow: '0 2px 16px #0003' }}>
-      <h2 style={{ color: '#FFC300', marginBottom: 24 }}>Configuração Inicial</h2>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+    <div className="config-step-container">
+      <h2 className="config-title">Configuração de Diretórios</h2>
+      <div className="config-fields">
         {[
           { label: 'Destino de Erros', name: 'errorPath' },
           { label: 'Destino de arquivos autenticados', name: 'authPath' },
           { label: 'Destino de arquivos temporários', name: 'tempPath' },
           { label: 'Diretório de vídeos', name: 'videoDir' },
         ].map(field => (
-          <div key={field.name} style={{ display: 'flex', alignItems: 'center' }}>
+          <div key={field.name} className="config-input-row">
             <input
               type="text"
               name={field.name}
               value={fields[field.name as keyof typeof fields] as string}
               onChange={handleChange}
               placeholder={field.label}
-              style={{ flex: 1, padding: 10, borderRadius: 6, border: '1px solid #444', background: '#181818', color: '#fff', fontSize: 16 }}
+              className="config-input"
             />
             <button
               type="button"
-              style={{ marginLeft: 8, background: 'none', border: 'none', cursor: 'pointer', color: '#FFC300', fontSize: 22 }}
-              title="Selecionar pasta (em breve)"
-              disabled
+              className="config-folder-btn"
+              title={`Selecionar pasta para ${field.label}`}
+              onClick={() => handleSelectFolder(field.name)}
             >
               <span role="img" aria-label="folder">📁</span>
             </button>
@@ -69,29 +79,29 @@ const ConfigStep: React.FC<ConfigStepProps> = ({ onNext, onBack, initialData }) 
           value={fields.subscriptionName}
           onChange={handleChange}
           placeholder="Nome da Subscription"
-          style={{ padding: 10, borderRadius: 6, border: '1px solid #444', background: '#181818', color: '#fff', fontSize: 16 }}
+          className="config-input"
         />
-        <div style={{ display: 'flex', gap: 16 }}>
-          <div style={{ flex: 1 }}>
-            <label style={{ color: '#FFC300' }}>Tipo de Carimbo</label>
+        <div className="config-selects-row">
+          <div className="config-select-col">
+            <label className="config-label">Tipo de Carimbo</label>
             <select
               name="timeStampMode"
               value={fields.timeStampMode}
               onChange={handleChange}
-              style={{ width: '100%', padding: 10, borderRadius: 6, border: '1px solid #444', background: '#181818', color: '#fff', fontSize: 16 }}
+              className="config-select"
             >
               {timeStampModes.map(opt => (
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
               ))}
             </select>
           </div>
-          <div style={{ flex: 1 }}>
-            <label style={{ color: '#FFC300' }}>Tipo de Dispositivo</label>
+          <div className="config-select-col">
+            <label className="config-label">Tipo de Dispositivo</label>
             <select
               name="processTypeMode"
               value={fields.processTypeMode}
               onChange={handleChange}
-              style={{ width: '100%', padding: 10, borderRadius: 6, border: '1px solid #444', background: '#181818', color: '#fff', fontSize: 16 }}
+              className="config-select"
             >
               {processTypeModes.map(opt => (
                 <option key={opt} value={opt}>{opt}</option>
@@ -100,18 +110,18 @@ const ConfigStep: React.FC<ConfigStepProps> = ({ onNext, onBack, initialData }) 
           </div>
         </div>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 32 }}>
+      <div className="config-btns-row">
         <button
           type="button"
           onClick={onBack}
-          style={{ background: '#444', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 32px', fontSize: 18, cursor: 'pointer' }}
+          className="config-btn config-btn-back"
         >
           Voltar
         </button>
         <button
           type="button"
           onClick={() => onNext(fields)}
-          style={{ background: allFilled ? '#1976d2' : '#555', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 32px', fontSize: 18, cursor: allFilled ? 'pointer' : 'not-allowed', transition: 'background 0.2s' }}
+          className="config-btn config-btn-next"
           disabled={!allFilled}
         >
           Avançar

@@ -20,6 +20,11 @@ electron.contextBridge.exposeInMainWorld("ipcRenderer", {
   // You can expose other APTs you need here.
   // ...
 });
+electron.contextBridge.exposeInMainWorld("electron", {
+  selectFolder: async () => {
+    return await electron.ipcRenderer.invoke("dialog:select-folder");
+  }
+});
 function domReady(condition = ["complete", "interactive"]) {
   return new Promise((resolve) => {
     if (condition.includes(document.readyState)) {

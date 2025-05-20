@@ -33,3 +33,10 @@ electron.app.on("window-all-closed", () => {
   win = null;
 });
 electron.app.whenReady().then(createWindow);
+electron.ipcMain.handle("dialog:select-folder", async () => {
+  const result = await electron.dialog.showOpenDialog({
+    properties: ["openDirectory"]
+  });
+  if (result.canceled || result.filePaths.length === 0) return null;
+  return result.filePaths[0];
+});

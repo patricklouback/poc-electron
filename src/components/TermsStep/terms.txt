@@ -1,0 +1,41 @@
+Bem-vindo ao nosso aplicativo! Antes de utilizar nossos serviços, leia atentamente os Termos de Uso abaixo. Ao utilizar este aplicativo, você concorda integralmente com todas as condições aqui estabelecidas.
+
+1. ACEITAÇÃO DOS TERMOS
+Ao acessar e utilizar este aplicativo, você declara ter lido, compreendido e aceito todas as condições destes Termos de Uso. Caso não concorde com algum dos termos, recomendamos que não utilize o aplicativo.
+
+2. DESCRIÇÃO DO SERVIÇO
+Este aplicativo tem como objetivo fornecer uma plataforma para gerenciamento e organização de arquivos, diretórios e configurações relacionadas ao seu fluxo de trabalho. As funcionalidades podem ser alteradas, suspensas ou descontinuadas a qualquer momento, sem aviso prévio.
+
+3. PRIVACIDADE E DADOS
+Nós respeitamos sua privacidade. Os dados fornecidos por você serão utilizados apenas para fins de funcionamento do aplicativo e não serão compartilhados com terceiros sem sua autorização, exceto quando exigido por lei.
+
+4. RESPONSABILIDADES DO USUÁRIO
+Você é responsável por:
+- Manter a confidencialidade de suas informações de acesso;
+- Utilizar o aplicativo de acordo com a legislação vigente;
+- Não utilizar o aplicativo para fins ilícitos, fraudulentos ou que possam prejudicar terceiros;
+- Garantir que os dados inseridos no aplicativo são verdadeiros e atualizados.
+
+5. LIMITAÇÕES DE USO
+É proibido:
+- Tentar acessar áreas restritas do aplicativo sem autorização;
+- Realizar engenharia reversa, descompilar ou modificar qualquer parte do aplicativo;
+- Utilizar scripts automatizados para acessar, coletar ou manipular dados do aplicativo;
+- Praticar qualquer ato que possa comprometer a segurança, integridade ou disponibilidade do aplicativo.
+
+6. PROPRIEDADE INTELECTUAL
+Todos os direitos relativos ao aplicativo, incluindo textos, imagens, logotipos, marcas, códigos e demais conteúdos, são de propriedade exclusiva dos desenvolvedores, salvo indicação em contrário. É proibida a reprodução, distribuição ou modificação sem autorização prévia e por escrito.
+
+7. ISENÇÃO DE GARANTIAS E LIMITAÇÃO DE RESPONSABILIDADE
+O aplicativo é fornecido "no estado em que se encontra", sem garantias de qualquer tipo. Não garantimos que o aplicativo estará sempre disponível, livre de erros ou seguro. Em nenhuma hipótese seremos responsáveis por danos diretos, indiretos, incidentais, especiais ou consequenciais decorrentes do uso ou da impossibilidade de uso do aplicativo.
+
+8. ALTERAÇÕES NOS TERMOS
+Reservamo-nos o direito de modificar estes Termos de Uso a qualquer momento. As alterações entrarão em vigor imediatamente após a publicação da versão atualizada. Recomendamos que você revise periodicamente este documento.
+
+9. CONTATO
+Em caso de dúvidas, sugestões ou solicitações relacionadas a estes Termos de Uso, entre em contato conosco pelo e-mail suporte@exemplo.com.
+
+10. LEI APLICÁVEL
+Estes Termos de Uso são regidos pelas leis do Brasil. Qualquer disputa decorrente deste documento será submetida ao foro da comarca do usuário, salvo disposição legal em contrário.
+
+Ao clicar em "Li e aceito os termos de uso" e utilizar o aplicativo, você declara estar ciente e de acordo com todas as condições acima.

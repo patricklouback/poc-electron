@@ -23,6 +23,12 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
   // ...
 })
 
+contextBridge.exposeInMainWorld('electron', {
+  selectFolder: async (): Promise<string | null> => {
+    return await ipcRenderer.invoke('dialog:select-folder');
+  },
+});
+
 // --------- Preload scripts loading ---------
 function domReady(condition: DocumentReadyState[] = ['complete', 'interactive']) {
   return new Promise((resolve) => {
