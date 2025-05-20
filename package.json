@@ -10,8 +10,8 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "electron:dev": "tsc -p electron && node dev.js",
-    "electron:build": "tsc -p electron && vite build && electron-builder"
+    "electron:dev": "cross-env NODE_ENV=development tsc -p electron && node dev.js",
+    "electron:build": "cross-env NODE_ENV=production tsc -p electron && vite build && electron-builder"
   },
   "dependencies": {
     "lucide-react": "^0.511.0",

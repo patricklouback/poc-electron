@@ -38,6 +38,8 @@ const path = __importStar(require("path"));
 const fs = __importStar(require("fs"));
 let mainWindow = null;
 function createWindow() {
+    console.log('Creating window...');
+    console.log('Current directory:', __dirname);
     mainWindow = new electron_1.BrowserWindow({
         width: 1200,
         height: 800,
@@ -49,12 +51,21 @@ function createWindow() {
     });
     // In development, load from Vite dev server
     if (process.env.NODE_ENV === 'development') {
+        console.log('Loading development URL...');
         mainWindow.loadURL('http://localhost:5173');
         mainWindow.webContents.openDevTools();
     }
     else {
         // In production, load the built files
-        mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
+        const indexPath = path.join(__dirname, '../dist/index.html');
+        console.log('Loading production file:', indexPath);
+        console.log('File exists:', fs.existsSync(indexPath));
+        mainWindow.loadFile(indexPath);
+        // Open DevTools in production for debugging
+        mainWindow.webContents.openDevTools();
+        mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
+            console.error('Failed to load:', errorCode, errorDescription);
+        });
     }
 }
 electron_1.app.whenReady().then(createWindow);
