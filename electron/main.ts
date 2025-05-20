@@ -1,94 +1,53 @@
-import { app, BrowserWindow, ipcMain, dialog } from 'electron';
-import * as path from 'path';
-import * as fs from 'fs';
+import path from 'path'
+import { app, BrowserWindow } from 'electron'
 
-let mainWindow: BrowserWindow | null = null;
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
+// The built directory structure
+//
+// ├─┬ dist
+// │ ├─┬ electron
+// │ │ ├── main.js
+// │ │ └── preload.js
+// │ ├── index.html
+// │ ├── ...other-static-files-from-public
+// │
+process.env.DIST = path.join(__dirname, '../dist')
+process.env.VITE_PUBLIC = app.isPackaged
+  ? process.env.DIST
+  : path.join(process.env.DIST, '../public')
+
+if (!app.requestSingleInstanceLock()) {
+  app.quit()
+  process.exit(0)
+}
+
+let win: BrowserWindow | null
 
 function createWindow() {
-  console.log('Creating window...');
-  console.log('Current directory:', __dirname);
-  
-  mainWindow = new BrowserWindow({
-    width: 1200,
-    height: 800,
+  win = new BrowserWindow({
+    icon: path.join(process.env.VITE_PUBLIC, 'logo.svg'),
     webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, './preload.js'),
     },
-  });
+  })
 
-  // In development, load from Vite dev server
-  if (process.env.NODE_ENV === 'development') {
-    console.log('Loading development URL...');
-    mainWindow.loadURL('http://localhost:5173');
-    mainWindow.webContents.openDevTools();
+  // Test active push message to Renderer-process.
+  win.webContents.on('did-finish-load', () => {
+    win?.webContents.send('main-process-message', (new Date).toLocaleString())
+  })
+
+  if (process.env.VITE_DEV_SERVER_URL) {
+    win.loadURL(process.env.VITE_DEV_SERVER_URL)
+    win.webContents.openDevTools()
   } else {
-    // In production, load the built files
-    const indexPath = path.join(__dirname, '../dist/index.html');
-    console.log('Loading production file:', indexPath);
-    console.log('File exists:', fs.existsSync(indexPath));
-    
-    mainWindow.loadFile(indexPath);
-    
-    // Open DevTools in production for debugging
-    mainWindow.webContents.openDevTools();
-    
-    mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
-      console.error('Failed to load:', errorCode, errorDescription);
-    });
+    // win.loadFile('dist/index.html')
+    win.loadFile(path.join(process.env.DIST, 'index.html'))
   }
 }
 
-app.whenReady().then(createWindow);
-
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
+  app.quit()
+  win = null
+})
 
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
-  }
-});
-
-// IPC handlers for file operations
-ipcMain.handle('select-directory', async () => {
-  const result = await dialog.showOpenDialog(mainWindow!, {
-    properties: ['openDirectory'],
-  });
-  return result.filePaths[0];
-});
-
-ipcMain.handle('read-users', async (_, directoryPath) => {
-  const filePath = path.join(directoryPath, 'users.json');
-  try {
-    if (fs.existsSync(filePath)) {
-      const data = fs.readFileSync(filePath, 'utf-8');
-      return JSON.parse(data);
-    }
-    return [];
-  } catch (error) {
-    console.error('Error reading users:', error);
-    return [];
-  }
-});
-
-ipcMain.handle('save-user', async (_, { directoryPath, user }) => {
-  const filePath = path.join(directoryPath, 'users.json');
-  try {
-    let users = [];
-    if (fs.existsSync(filePath)) {
-      const data = fs.readFileSync(filePath, 'utf-8');
-      users = JSON.parse(data);
-    }
-    users.push(user);
-    fs.writeFileSync(filePath, JSON.stringify(users, null, 2));
-    return true;
-  } catch (error) {
-    console.error('Error saving user:', error);
-    return false;
-  }
-}); 
+app.whenReady().then(createWindow)
