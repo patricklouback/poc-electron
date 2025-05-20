@@ -2,6 +2,8 @@
   "name": "user-manager",
   "private": true,
   "version": "0.0.1",
+  "description": "User Manager Application",
+  "author": "Patrick",
   "main": "dist-electron/main.js",
   "scripts": {
     "dev": "vite",
@@ -50,6 +52,9 @@
     "files": [
       "dist/**/*",
       "dist-electron/**/*"
+    ],
+    "asarUnpack": [
+      "node_modules/**/*"
     ]
   }
 }
