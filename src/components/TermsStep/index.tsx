@@ -11,7 +11,6 @@ const TermsStep: React.FC<TermsStepProps> = ({ onAccept }) => {
 
   return (
     <div className="terms-step-container">
-      <img src="/logo.svg" alt="Logo" className="terms-logo" />
       <h2 className="terms-title">Termos de Uso</h2>
       <pre className="terms-pre">{terms}</pre>
       <div className="terms-checkbox-row">

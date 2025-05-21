@@ -1,6 +1,7 @@
 "use strict";
 const path = require("path");
 const electron = require("electron");
+const fs = require("fs/promises");
 process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
 process.env.DIST = path.join(__dirname, "../dist");
 process.env.VITE_PUBLIC = electron.app.isPackaged ? process.env.DIST : path.join(process.env.DIST, "../public");
@@ -18,6 +19,7 @@ function createWindow() {
       preload: path.join(__dirname, "./preload.js")
     }
   });
+  win.setMenu(null);
   win.webContents.on("did-finish-load", () => {
     win == null ? void 0 : win.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
   });
@@ -39,4 +41,8 @@ electron.ipcMain.handle("dialog:select-folder", async () => {
   });
   if (result.canceled || result.filePaths.length === 0) return null;
   return result.filePaths[0];
+});
+electron.ipcMain.handle("json:save", async (_event, folder, data) => {
+  const filePath = path.join(folder, "config.json");
+  await fs.writeFile(filePath, JSON.stringify(data, null, 2), "utf-8");
 });

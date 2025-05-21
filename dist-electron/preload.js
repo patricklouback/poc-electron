@@ -23,6 +23,9 @@ electron.contextBridge.exposeInMainWorld("ipcRenderer", {
 electron.contextBridge.exposeInMainWorld("electron", {
   selectFolder: async () => {
     return await electron.ipcRenderer.invoke("dialog:select-folder");
+  },
+  saveJson: async (folder, data) => {
+    await electron.ipcRenderer.invoke("json:save", folder, data);
   }
 });
 function domReady(condition = ["complete", "interactive"]) {

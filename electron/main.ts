@@ -1,5 +1,6 @@
 import path from 'path'
 import { app, BrowserWindow, dialog, ipcMain } from 'electron'
+import fs from 'fs/promises'
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 // The built directory structure
@@ -33,6 +34,9 @@ function createWindow() {
     },
   })
 
+  // Remover menu superior padrão
+  win.setMenu(null);
+
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {
     win?.webContents.send('main-process-message', (new Date).toLocaleString())
@@ -60,4 +64,9 @@ ipcMain.handle('dialog:select-folder', async () => {
   });
   if (result.canceled || result.filePaths.length === 0) return null;
   return result.filePaths[0];
+});
+
+ipcMain.handle('json:save', async (_event, folder: string, data: any) => {
+  const filePath = path.join(folder, 'config.json');
+  await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
 });

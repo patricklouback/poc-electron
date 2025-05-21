@@ -18,20 +18,16 @@
   letter-spacing: 1px;
 }
 
-.api-input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1.5px solid #e0e0e0;
+.api-json-box {
   background: #f5f8ff;
   color: #222;
-  font-size: 16px;
+  padding: 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  text-align: left;
+  overflow-x: auto;
   margin-bottom: 32px;
-  transition: border 0.2s;
-}
-.api-input:focus {
-  border: 1.5px solid #3A7DFF;
-  outline: none;
+  border: 1.5px solid #e0e0e0;
 }
 
 .api-btns-row {
@@ -61,6 +57,7 @@
   background: #3A7DFF;
   color: #fff;
 }
+
 .api-btn-next {
   background: #3A7DFF;
   color: #fff;
@@ -69,23 +66,4 @@
   background: #e0e0e0;
   color: #aaa;
   cursor: not-allowed;
-}
-
-.api-json-summary {
-  margin-top: 24px;
-}
-.api-summary-title {
-  color: #E53935;
-  font-weight: 700;
-}
-.api-json-box {
-  background: #f5f8ff;
-  color: #222;
-  padding: 20px;
-  border-radius: 8px;
-  font-size: 15px;
-  text-align: left;
-  overflow-x: auto;
-  margin-bottom: 32px;
-  border: 1.5px solid #e0e0e0;
 } 

@@ -28,11 +28,19 @@ html, body {
   align-items: center;
 }
 
+.app-logo {
+  height: 100px;
+  margin-bottom: 24px;
+  position: absolute;
+  top: 24px;
+  left: 24px;
+}
+
 body {
   margin: 0;
   width: 100vw;
   height: 100vh;
-  background: #242424;
+  background: #fff;
 }
 
 a {

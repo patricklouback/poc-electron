@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import TermsStep from './components/TermsStep';
 import ConfigStep from './components/ConfigStep';
 import ApiStep from './components/ApiStep';
+import JsonSummaryStep from './components/JsonSummaryStep';
+import logo from '../public/dfm-logo.png';
 
 const App: React.FC = () => {
   const [step, setStep] = useState(0);
@@ -21,25 +23,29 @@ const App: React.FC = () => {
     setStep(0);
   };
 
-  const handleApiFinish = (data: any) => {
-    setFormData({ ...formData, ...data });
-    // step permanece 2 para mostrar o resumo
+  const handleSummaryBack = () => {
+    setStep(2);
   };
 
-  const handleApiBack = () => {
-    setStep(1);
-  };
-
-  switch (step) {
-    case 0:
-      return <TermsStep onAccept={handleTermsAccepted} />;
-    case 1:
-      return <ConfigStep onNext={handleConfigNext} onBack={handleConfigBack} initialData={formData} />;
-    case 2:
-      return <ApiStep onFinish={handleApiFinish} onBack={handleApiBack} initialData={formData} />;
-    default:
-      return null;
+  const renderStep = () => {
+    switch (step) {
+      case 0:
+        return <TermsStep onAccept={handleTermsAccepted} />;
+      case 1:
+        return <ConfigStep onNext={handleConfigNext} onBack={handleConfigBack} initialData={formData} />;
+      case 2:
+        return <JsonSummaryStep data={formData} onBack={handleSummaryBack} />;
+      default:
+        return null;
+    }
   }
+
+  return (
+    <div className="app-container">
+      <img src={logo} alt="Logo" className="app-logo" />
+      {renderStep()}
+    </div>
+  );
 };
 
 export default App; 
