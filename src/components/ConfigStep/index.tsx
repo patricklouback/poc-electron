@@ -44,6 +44,49 @@ const ConfigStep: React.FC<ConfigStepProps> = ({ onNext, onBack, initialData }) 
 
   const allFilled = fields.errorPath && fields.authPath && fields.tempPath && fields.videoDir && fields.subscriptionName;
 
+  const handleNext = () => {
+    const jsonData = {
+      Version: "3.0.0",
+      Logging: {
+        LogLevel: {
+          Default: "Information",
+          Microsoft_Hosting_Lifetime: "Information"
+        }
+      },
+      DfmConfig: {
+        OutPath: fields.authPath,
+        Src: fields.videoDir,
+        TempDir: fields.tempPath,
+        ErrorPath: fields.errorPath,
+        TempLog: "C:\\Program Files\\DFM\\Logs",
+        ServiceBus: {
+          TopicName: "icat-in",
+          SubscriptionName: fields.subscriptionName
+        },
+        ServiceBusOut: {
+          TopicName: "icat-out",
+          SubscriptionName: fields.subscriptionName
+        },
+        ServiceBusDfmLog: {
+          TopicName: "icat-dfmlog",
+          SubscriptionName: "main"
+        },
+        VideoDuration: 30,
+        LicenseKey: "CPYARRC2WP7WB2EM",
+        DeviceConfig: [
+          {
+            Paths: [
+              fields.videoDir
+            ],
+            TimeStampMode: parseInt(fields.timeStampMode.toString()),
+            ProcessMode: processTypeModes.indexOf(fields.processTypeMode) + 1
+          }
+        ]
+      }
+    };
+    onNext(jsonData);
+  };
+
   return (
     <div className="config-step-container">
       <h2 className="config-title">Configuração de Diretórios</h2>
@@ -120,7 +163,7 @@ const ConfigStep: React.FC<ConfigStepProps> = ({ onNext, onBack, initialData }) 
         </button>
         <button
           type="button"
-          onClick={() => onNext(fields)}
+          onClick={handleNext}
           className="config-btn config-btn-next"
           disabled={!allFilled}
         >

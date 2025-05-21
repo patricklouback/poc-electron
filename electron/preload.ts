@@ -27,8 +27,8 @@ contextBridge.exposeInMainWorld('electron', {
   selectFolder: async (): Promise<string | null> => {
     return await ipcRenderer.invoke('dialog:select-folder');
   },
-  saveJson: async (folder: string, data: any): Promise<void> => {
-    await ipcRenderer.invoke('json:save', folder, data);
+  saveFile: async (content: string, filename: string): Promise<void> => {
+    await ipcRenderer.invoke('file:save', content, filename);
   },
 });
 

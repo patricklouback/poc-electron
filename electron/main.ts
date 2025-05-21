@@ -1,6 +1,6 @@
 import path from 'path'
 import { app, BrowserWindow, dialog, ipcMain } from 'electron'
-import fs from 'fs/promises'
+import fs from 'fs'
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 // The built directory structure
@@ -60,13 +60,20 @@ app.whenReady().then(createWindow)
 
 ipcMain.handle('dialog:select-folder', async () => {
   const result = await dialog.showOpenDialog({
-    properties: ['openDirectory'],
-  });
-  if (result.canceled || result.filePaths.length === 0) return null;
-  return result.filePaths[0];
-});
+    properties: ['openDirectory']
+  })
+  return result.canceled ? null : result.filePaths[0]
+})
 
-ipcMain.handle('json:save', async (_event, folder: string, data: any) => {
-  const filePath = path.join(folder, 'config.json');
-  await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
-});
+ipcMain.handle('file:save', async (_, content: string, filename: string) => {
+  const result = await dialog.showSaveDialog({
+    defaultPath: filename,
+    filters: [
+      { name: 'JSON Files', extensions: ['json'] }
+    ]
+  })
+
+  if (!result.canceled && result.filePath) {
+    fs.writeFileSync(result.filePath, content, 'utf8')
+  }
+})

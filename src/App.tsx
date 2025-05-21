@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import TermsStep from './components/TermsStep';
 import ConfigStep from './components/ConfigStep';
-import ApiStep from './components/ApiStep';
 import JsonSummaryStep from './components/JsonSummaryStep';
 import logo from '../public/dfm-logo.png';
 
@@ -24,7 +23,14 @@ const App: React.FC = () => {
   };
 
   const handleSummaryBack = () => {
-    setStep(2);
+    setStep(1);
+  };
+
+  const handleSaveJson = async () => {
+    if (window.electron && window.electron.saveFile) {
+      const jsonString = JSON.stringify(formData, null, 2);
+      await window.electron.saveFile(jsonString, 'appsettings.json');
+    }
   };
 
   const renderStep = () => {
@@ -34,7 +40,7 @@ const App: React.FC = () => {
       case 1:
         return <ConfigStep onNext={handleConfigNext} onBack={handleConfigBack} initialData={formData} />;
       case 2:
-        return <JsonSummaryStep data={formData} onBack={handleSummaryBack} />;
+        return <JsonSummaryStep data={formData} onBack={handleSummaryBack} onSave={handleSaveJson} />;
       default:
         return null;
     }

@@ -1,7 +1,7 @@
 "use strict";
 const path = require("path");
 const electron = require("electron");
-const fs = require("fs/promises");
+const fs = require("fs");
 process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
 process.env.DIST = path.join(__dirname, "../dist");
 process.env.VITE_PUBLIC = electron.app.isPackaged ? process.env.DIST : path.join(process.env.DIST, "../public");
@@ -39,10 +39,16 @@ electron.ipcMain.handle("dialog:select-folder", async () => {
   const result = await electron.dialog.showOpenDialog({
     properties: ["openDirectory"]
   });
-  if (result.canceled || result.filePaths.length === 0) return null;
-  return result.filePaths[0];
+  return result.canceled ? null : result.filePaths[0];
 });
-electron.ipcMain.handle("json:save", async (_event, folder, data) => {
-  const filePath = path.join(folder, "config.json");
-  await fs.writeFile(filePath, JSON.stringify(data, null, 2), "utf-8");
+electron.ipcMain.handle("file:save", async (_, content, filename) => {
+  const result = await electron.dialog.showSaveDialog({
+    defaultPath: filename,
+    filters: [
+      { name: "JSON Files", extensions: ["json"] }
+    ]
+  });
+  if (!result.canceled && result.filePath) {
+    fs.writeFileSync(result.filePath, content, "utf8");
+  }
 });
